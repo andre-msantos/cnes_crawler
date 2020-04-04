@@ -16,20 +16,25 @@ def getDataMunic(codibge):
 	
 	#get data from URL
 	url = "http://cnes2.datasus.gov.br/Mod_Ind_Tipo_Leito.asp?VEstado={}&VMun={}".format(ufibge, codibge)
-	dfmunic = pd.read_html(url, header=0)[3]
+		
+	try:
+		dfmunic = pd.read_html(url, header=0)[3]
+			
+		#filter data from beds
+		dfmunic = dfmunic[dfmunic.Codigo.str.isdigit()]
 	
-	#filter data from beds
-	dfmunic = dfmunic[dfmunic.Codigo.str.isdigit()]
-	
-	#add codibge
-	dfmunic.insert(0, 'codibge', codibge)
+		#add codibge
+		dfmunic.insert(0, 'codibge', codibge)
+	except IndexError:
+		data = [[codibge, '00', 0, 0, 0, 0]]
+		dfmunic = pd.DataFrame(data, columns = ['codibge','Codigo','Descrição','Existente','Sus','Não Sus'])
 	
 	return dfmunic
 
 dfmerge = pd.DataFrame(columns = ['codibge','Codigo','Descrição','Existente','Sus','Não Sus'])
 
 for codibge in list_munic['codibge']:
-  dfmerge = pd.concat( [dfmerge, getDataMunic( str(codibge) )],ignore_index = True )
+	dfmerge = pd.concat( [dfmerge, getDataMunic( str(codibge) )],ignore_index = True )
 
 # convert columns
 dfmerge['Existente'] = pd.to_numeric(dfmerge['Existente'])
