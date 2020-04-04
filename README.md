@@ -17,7 +17,9 @@ Existem dois arquivos CSV com os códigos dos municípios para auxiliar no crawl
 
 ## Códigos dos tipos de leito
 Leitos normais: `'01', '02', '03', '04', '05', '07', '08', '09', '11', '12','13', '14', '15', '16', '31', '32', '33', '34', '35', '36','37', '38', '40', '41', '42', '44', '46', '48', '49', '66','67', '69', '70', '71', '72', '88', '90', '95'`
+
 Leitos UTI: `'75','74','76','85','86','83'`
+
 Leitos UTI Covid: `'51'`
 
 Para alterar esses premissas basta alterar as listas das variáveis `codes_normal_beds`, `codes_icu_beds`, `codes_icu_beds_covid`
